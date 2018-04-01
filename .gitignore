@@ -42,3 +42,14 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Common Elixir ignores
+/_build
+/cover
+/deps
+/doc
+/.fetch
+erl_crash.dump
+*.ez
+*.beam
+/config/*.secret.exs
