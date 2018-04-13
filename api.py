@@ -9,6 +9,11 @@ def index():
 
 @app.route('/note/<string:symbol>', methods=['GET'])
 def note(symbol):
-    f = getattr(__import__("notes.%s" % (symbol), fromlist=['notes']), 'response')
-    r = f()
+    try:
+        f = getattr(__import__("notes.%s" % (symbol), fromlist=['notes']), 'response')
+        r = f()
+    except ModuleNotFoundError:
+        r = "Note <%s> not found" % symbol
+
     return r
+
