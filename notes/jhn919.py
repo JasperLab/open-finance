@@ -22,7 +22,6 @@ def load_data(tickers,close,pct_growth,start_date,end_date):
     # If stock quotes are not stored locally, read from Yahoo/Google and store locally
     for symbol in tickers:
         csv_path = os.path.join(app_root, "../quotes/" + symbol + ".csv")
-        print("Path is %s" % csv_path)
         if not os.path.exists(csv_path):
             print ("Loading data from Yahoo/Google: " + symbol)
             data_source='google'
@@ -35,8 +34,6 @@ def load_data(tickers,close,pct_growth,start_date,end_date):
     for symbol in tickers:
         csv_path = os.path.join(app_root, "../quotes/" + symbol + ".csv")
         p = Path(csv_path)
-        print(p.__class__)
-        print("Reading from %s" % p)
         content = []
         df1 = pd.read_csv(p,index_col="Date",parse_dates=True)
         df1 = df1[['Close']]
