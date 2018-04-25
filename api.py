@@ -1,6 +1,5 @@
 import flask
 from flask import Flask, request, render_template, Response, jsonify
-#from flask_restful import Resource, Api
 import sys, traceback
 import notes
 import pandas as pd
@@ -36,42 +35,18 @@ def index():
         </html>
         '''
 
-@app.route('/notes/<symbol>')
-def note():
-    pass
-
-
-#api = Api(app)
-
-#@api.representation('application/json')
-#def output_json(data, code, headers=None):
-#    resp = make_response(json.dumps(data), code)
-#    resp.headers.extend(headers or {})
-#    return resp
-#
-#@api.representation('application/html')
-#def output_html(data, code, headers=None):
-#
-#
-#class Index(Resource):
-#    def get(self):
-#        return Response(render_template('index.html', mimetype='text/html'))
-#
-#api.add_resource(Index, '/')
-#
-#class Note(Resource):
-#    def get(self, symbol):
-#        try:
-#            f = getattr(__import__("notes.%s" % (symbol), fromlist=['notes']), 'response')
-#            r = f()
-#            # assert app.debug == False
-#            return pd.Series.to_json(r.portfolio, orient='split', date_format='iso')
-#        except ModuleNotFoundError:
-#            app.logger.error("Module for %s not found." % symbol)
-#            return {'message': "Pricing for %s not found." % symbol}, 404
-#
-#api.add_resource(Note, '/notes/<symbol>')
-
+@app.route('/notes/<string:symbol>', methods=['GET'])
+def note(symbol):
+       try:
+           f = getattr(__import__("notes.%s" % (symbol), fromlist=['notes']), 'response')
+           r = f()
+           if request_wants_json():
+                return pd.Series.to_json(r.portfolio, orient='split', date_format='iso')           
+            else:
+                pass
+       except ModuleNotFoundError:
+           app.logger.error("Module for %s not found." % symbol)
+           return {'message': "Pricing for %s not found." % symbol}, 404
 
 if __name__ == '__main__':
     app.run(debug=True)
