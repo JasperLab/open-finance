@@ -42,7 +42,7 @@ def note(symbol):
            r = f()
            if request_wants_json():
                 return pd.Series.to_json(r.portfolio, orient='split', date_format='iso')           
-            else:
+           else:
                 pass
        except ModuleNotFoundError:
            app.logger.error("Module for %s not found." % symbol)
