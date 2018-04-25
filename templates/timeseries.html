@@ -1,0 +1,17 @@
+<head>
+    <script src="/static/plotly.min.js"></script>
+</head>
+
+<body>
+    <div id="timeseries1">
+	</div>
+	<script>
+		var data = {{ data|safe }};
+		var plot_data = [
+			{ x: data['index'],
+			  y: data['data'],
+			type: 'scatter'}];
+		alert(plot_data[0]['x']);
+		Plotly.newPlot('timeseries1', plot_data);
+	</script>
+</body>
